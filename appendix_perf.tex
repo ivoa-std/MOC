@@ -1,0 +1,110 @@
+\section{MOC Volume and Performances}
+\label{app:perf}
+The MOC describes ranges of space and time as an explicit list of cells. The
+volume can vary a lot from a few bytes to several megabytes.
+Since MOC is hierarchical, its volume mainly depends on three factors:
+\begin{itemize}
+\item The chosen STMOC resolutions (spatial and temporal).
+\item The geometry of the region and its time coverage.
+\item The density of sources for catalogs.   
+\end{itemize}
+
+\begin{table}[!htbp]
+\begin{center}
+{\scriptsize
+\begin{tabular}{p{0.2\textwidth}p{0.2\textwidth}p{0.2\textwidth}p{0.2\textwidth}}
+\sptablerule
+\textbf{Order} & \textbf{Resolution} & \textbf{Volume (KB)} & \textbf{Generation \newline time (ms)}\\
+\sptablerule
+6	&	54.87'	&	23	&	36 \\
+8	&	13.74'	&	33	&	40 \\
+10	&	3.435'	&	46	&	44 \\
+12	&	51.53'	&	71	&	49 \\
+14	&	12,88"	&	215	&	64 \\
+16	&	3.221"	&	317	&	78 \\
+18	&	805.2mas	&	488	&	105 \\
+20	&	201.3mas	&	655	&	132 \\
+\sptablerule
+\end{tabular}
+\caption[SMOC performances]{SMOCs for HST ACS science observations
+  obtained from CADC's OBSCORE using field central position and
+  not the original footprint.}
+\normalsize
+}
+\label{table:smocsizeacs}
+\end{center}
+\end{table}
+
+
+\begin{table}[!htbp]
+\begin{center}
+{\scriptsize
+\begin{tabular}{p{0.2\textwidth}p{0.2\textwidth}p{0.2\textwidth}p{0.2\textwidth}}
+\sptablerule
+\textbf{Order} & \textbf{Resolution} & \textbf{Volume} & \textbf{Generation \newline time (ms)}\\
+\sptablerule
+15&	2y 83d&	<1KB&	18 \\
+19&	50d 21h	&1KB&	30 \\
+23&	3d 4h&	7KB&	32 \\
+27&	4h 46m&	70KB&	34 \\
+31&	17m 53.7s&	673KB&	36 \\
+35&	1m 7.1s&	1MB&	38 \\
+39&	4.19s&	1MB&	38 \\
+43&	262.1ms&	1MB&	38 \\
+\sptablerule
+\end{tabular}
+\caption[TMOC performances]{TMOCs for HST ACS science observations obtained from CADC's OBSCORE using field central position and not the original footprint.}
+\normalsize
+}
+\label{table:tmocsizeacs}
+\end{center}
+\end{table}
+
+
+\begin{table}[!htbp]
+\begin{center}
+{\scriptsize
+\begin{tabular}{p{0.2\textwidth}p{0.2\textwidth}p{0.2\textwidth}p{0.2\textwidth}}
+\sptablerule
+\textbf{T Order} & \textbf{S order} & \textbf{Volume} & \textbf{Generation \newline time (ms)}\\
+\sptablerule
+15&	6&	269KB&	0.3\\
+19&	8&	511KB&	0.3\\
+23&	10&	867KB&	0.5\\
+27&	12&	1.4MB&	2.1\\
+31&	14&	2MB&	4.7\\
+35&	16&	4.3MB&	9.7\\
+39&	18&	4.3MB&	9.8\\
+43&	20&	4.3MB&	10\\
+28&	8&	1MB&	2\\
+19&	12&	929KB&	0.5\\
+\sptablerule
+\end{tabular}
+\caption[STMOC performances]{STMOCs for HST ACS science observations obtained from CADC's OBSCORE using field central position and not the original footprint.}
+\normalsize
+}
+\label{table:tmocsizeacs}
+\end{center}
+\end{table}
+
+\begin{table}[!htbp]
+\begin{center}
+{\scriptsize
+\begin{tabular}{p{0.3\textwidth}p{0.3\textwidth}p{0.3\textwidth}}
+\sptablerule
+\textbf{Operand and Order} & \textbf{Union} & \textbf{Intersection} \\
+\sptablerule
+SMOC 10	&2ms&	2ms \\
+TMOC 23&	<1ms&	<1ms \\
+STMOC 10,23&	2ms&	7ms \\
+SMOC 12&	2ms&	1ms \\
+TMOC 27&	<1ms&	<1ms \\
+STMOC 12,27&	6ms&	4ms \\
+\sptablerule
+\end{tabular}
+\caption[STMOC operation performances]{STMOCs operations between HST ACS (211453 observations) and HST WFC3 (276175 observations) science observations obtained from CADC's OBSCORE using field central position and not the original footprint.}
+\normalsize
+}
+\label{table:tmocsizeacs}
+\end{center}
+\end{table}

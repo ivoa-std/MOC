@@ -1,0 +1,79 @@
+\section{Suggested algorithms for basic operations}
+Mapping a MOC to a unique sorted list of cells at the deepest
+resolution order allows usage of very easy and very fast
+algorithms. Basic operations such as unions or intersections can be
+computed via bit shifts and simple dichotomic algorithms on sorted
+lists.  To reduce as much as possible the memory requirement, a good
+practice is to store range sets of continuous cells [minValue
+  .. maxValue[, instead of individual cells.
+
+\subsection{Union: moc1 $\cup$ moc2}
+\begin{verbatim}
+   Map moc1 to rangeList
+   Map moc2 in the same rangeList
+   Unmap the resulting rangeList
+\end{verbatim}
+
+\subsection{Intersection: moc1 $\cap$ moc2}
+\begin{verbatim}
+   Map moc1 in rangeList1
+   foreach order/index of moc2
+        shift=2*(maxOrder-order)
+        append in a rangeList2 the intersection between
+              [index << shift .. index+1 << shift[
+        and   the corresponding range(s) of rangeList1
+   Unmap rangeList2
+\end{verbatim}
+
+\subsection{Map: moc To rangeList}
+\begin{verbatim}
+   foreach order/index of moc
+         shift=2*(maxOrder-order)
+         append in rangeList [index << shift , (index+1) << shift[
+         (the range overlapping must be adjusted)
+\end{verbatim}
+
+\subsection{Unmap: rangeList To moc}
+\begin{verbatim}
+   for order = 0 to maxOrder
+      end if rangeList is empty
+      shift = 2*(maxOrder-order)
+      offset = (1<<shift) -1
+      foreach range [min..max[ of rangeList
+         append in moc order/index where index is in [m1 .. m2[
+               m1 = (min+offset) >> shift
+               m2 = max >> shift
+         remove from rangeList [m1<<shift .. m2<<shift[
+\end{verbatim}
+
+\section{Basic HEALPix functions}
+For generating space MOC from observations, or drawing them on the
+sphere, an HEALPix library is required. The basic functions available
+in all HEALPix libraries are the following :
+\begin{itemize}
+   \item npix <= coordToNpix(order, alpha,delta) : returns the HEALPix
+     cell index containing the alpha,delta coordinates.
+   \item ArrayOfNpix <= queryDisc(order, alpha,delta,radius) : returns
+     the list of cell indices covering the (long,lat,radius) cone
+   \item ArrayOfNpix <= queryPolygon(order, alpha1,delta1, $\cdots$
+     alphaN,deltaN): returns the list of cell indices covering the
+     spherical polygon
+   \item (alpha,delta) <= NpixToCoord(order,npix) : returns the
+     coordinates of the center of order/npix cell.
+   \item ArrayOf(alpha,delta) <= NpixToCorners(order,npix) : returns
+     the corner coordinates of order/npix cell.
+\end{itemize}
+
+\section{Basic time functions} 
+For generating TMOC from observations, a time library might be required to convert the dates are not expressed in JD TCB
+\begin{itemize} 
+\item \url{http://www.iausofa.org/}
+\item \url{http://javastro.github.io/jsofa/}
+\item \url{https://docs.astropy.org/en/stable/time/#module-astropy.time}
+\item Obtain the index from the JD: 
+\begin{Verbatim}
+  static public long getMicrosec(double jd, long offset) {
+      long micron = (long)(jd*DAYMICROSEC);
+      return micron + (offset*86400000000L);
+\end{Verbatim}
+\end{itemize} 
