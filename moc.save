@@ -1,0 +1,531 @@
+(/usr/local/texlive/2015/texmf-dist/tex/latex/hyperref/nameref.sty
+(/usr/local/texlive/2015/texmf-dist/tex/generic/oberdiek/gettitlestring.sty))
+(./moc.out) (./moc.out) ABD: EveryShipout initializing macros (./moc.aux) )
+No pages of output.
+Transcript written on moc.log.
+[NRC-006137dd:~/Desktop/MOC2] durandd% more moc.tex
+\documentclass[11pt,a4paper]{ivoa}
+\input tthdefs
+
+\usepackage{listings}
+\lstloadlanguages{sh,make,[latex]tex}
+\lstset{flexiblecolumns=true,numberstyle=\small,showstringspaces=False,
+  identifierstyle=\texttt,defaultdialect=[latex]tex,language=tex}
+
+\usepackage{todonotes}
+
+\usepackage[utf8]{inputenc}
+
+\definecolor{texcolor}{rgb}{0.4,0.1,0.1}
+\newcommand{\texword}[1]{\texttt{\color{texcolor} #1}}
+
+\iftth
+  \newcommand{\BibTeX}{BibTeX}
+\fi
+
+\iftth
+ \newcommand{\comicstuff}[1]{
+    \begin{html}<span class="comic">#1</span>\end{html}}
+\else
+  \newcommand{\comicstuff}[1]{(HTML exclusive material)}
+\fi
+\customcss{custom.css}
+
+\newcommand\ada[1]{\textcolor{red}{\textbf{#1}}}
+
+\title{Description of MOC extension to support Time (TMOC) and Space Time Coverage (STMOC) }
+
+\ivoagroup{Applications}
+
+\author{Daniel Durand, CADC}
+\author{Pierre Fernique, CDS}
+\author{Ada Nebot, CDS}
+\author{Thomas Boch, CDS}
+\author{Francois-Xavier Pineault, CDS}
+
+
+\editor{Daniel Durand, Pierre Fernique, Ada Nebot, Thomas Boch, Francois-Xavier Pineault}
+
+%\previousversion[http://www.ivoa.net/documents/ivoatexDoc/20160430]{Version1.1}
+%\previousversion[http://www.ivoa.net/documents/ivoatexDoc/20150129]{Version1.0}
+
+
+\begin{document}
+
+%\SVN$Rev: 4724 $
+%\SVN$Date: 2018-01-29 15:20:52 +0100 (Mon, 29 Jan 2018) $
+%\SVN$URL: https://volute.g-vo.org/svn/trunk/projects/ivoapub/ivoatexDoc/ivoatexDoc.tex $
+
+\begin{abstract}
+This document describes the Multi-Order Coverage map method (MOC) version 2.0 to specify arbitrary coverages for sky regions and/or time coverages and potentially other dimensions. The goal is to be able to provide a very fast comparison mechanism between coverages. The mechanism is based on a discretization of space  and time dimensions. It is essentially a simple way to store the map coverages into hierarchically grouped predefined cells to create and use it to describe image collections and observation catalogs.
+\end{abstract}
+
+\section{Status of this document}
+This document is a Working Draft of a major release of an already existing MOC recommendation. This is a generalization of the previous version extending the MOC originally limited to space dimension to other dimensions, especially the time dimension.
+This is the release of an IVOA Working Draft ready for review by IVOA members and other interested parties. It is a preliminary version and it could be updated, replaced, or obsoleted by other another version at any time. It is inappropriate to use IVOA Working Drafts as reference materials or to cite them as other than "work in progress". A list of current IVOA Recommendations and other technical documents can be found at http://www.ivoa.net/Documents/. 
+
+\section{Introduction}
+The encoding method described in this document allows one to define and manipulate space and time coverage in such a way that basic operations like union, intersection, equality test can be performed very efficiently. It is dedicated to VO applications or VO data servers for building efficient procedures for which mapping knowledge is required like generic catalog cross-match, computation of data set intersections, or similar operations.
+
+This encoding method is called "Space Time Multi-Order Coverage map" or "STMOC".
+The STMOC standard describes a standalone format and is neither a dependent, nor a dependency, of other VO standards, but the previously agreed upon MOC standard hence the MOC2.0. The figure above illustrates MOC2.0 in the context of the overall IVOA Architecture which is essentially within the same area as MOC. 
+
+
+
+\section{The rationale}
+
+The idea behind the introduction of a MOC extension to cover the Space and the TIME coordinates is to be able to answer some formulate questions which would use the 2 of the 3 basic dimensions characterizing any astronomical observations, I.e SPACE and TIME. We will discuss the other dimension, ENERGY, later in this document.  Among other usages, we want to be able to answer quickly questions like the following:
+\begin{itemize}
+\item What are the space and time coverage of the 2MASS observations and is there any observations which are coincidental within the HST archive.
+\item Let's obtain the list of astronomical catalogs which have data for a list of Supernova events (time and position are mandatory)
+\item Is there any other observations coin with the gravitational wave detection given their time and spatial coordinates.
+\end{itemize}
+
+It was possible to answer those questions without the creation of this new STMOC standard but the amount of manipulation and computation was quite a big hurdle for the researchers. With STMOC, we will show that it is possible to answer these questions in a few seconds at most.  
+
+Here are the basic principles we followed to come up with the STMOC standard.
+
+\begin{itemize}
+\item In order to follow the MOC ?spirit?, he had to find the proper tessellation/discretization methodology for the time axis
+\item Once establish this referential would have to be fix like the HealPix cell definition for the MOC.
+\item Once done, we had to allow an hierarchical navigation procedure for this axis
+\item Since we want to store the discretization signature for both axis at once, we had to create a notation to carry all coordinates to be able to express simply the 2D coverage. 
+\item Since the MOC standard is 1D, we had to use a 2D notation to be able to carry 2 coordinates. It is out of the scope of the document to define what is required to describe 3 or more dimensions but with the defined notation, there is no fundamentals reasons to forbid it. We will discuss in the conclusion of this document. 
+\item We choose also the implement 2 serialization model, one in binary and one in ascii, the former would be when performance is an issue while the ascii one is for the ease of use.
+\end{itemize}
+
+\subsection{Success of  the MOC spatial}
+
+\subsection{Availability of the MOC temporal}
+
+\subsection{Next, combining Space and Time}
+
+\section{The Science}
+
+\subsection{Basic Science Cases}
+
+\subsection{Space Time Overview}
+The main goal for the TMOC generation is the possibility to link it with its space counterpart. In other words, the possibility to select the space MOC using a time window or to select a TMOC interval using a spatial constraint. Implementing this linkage would allow the potential users to select and interact with the collections which are supporting space and time and since we are talking coverage, operate on them like between two MOCs. For instance, one could get the intersection of the STMOC between HST observations and a catalog of supernovae searching for potential timely progenitors using only coverages.
+
+We will describe in the following sections the syntax we choose to allow these operations to be possible while keeping the potential interaction as fast as possible because we are now dealing with more than one dimension. 
+
+The generation of the STMOC is done like the MOC and/or the TMOC by simply scanning a given collection which contains the space and time metadata. The execution time and the size of the resulting STMOC depends of the size of the collection AND the space/time resolution desired.  Please consult Table 2 for some exemples on performance. But let's start with a description of the selected encoding which also gives us a good insight on how the link between the time and space is conserved in the STMOC.
+
+Combining spatial Healpix encoding and temporal range encoding
+
+\subsection{Exemples and Implementations}
+
+\subsubsection{MOC (or SMOC)}
+\subsubsection{TMOC}
+\subsubsection{STMOC}
+Let's start to display some STMOCs generated from existing HiPS metadata located in the HpxFinder structure. We will play with three STMOCs.
+
+\begin{itemize}
+\item STMoc-HST-B.fits - generated from the HST images in Band B by the CADC
+\item STMoc-HST-V.fits - generated from the HST images in Band V by the CADC
+\item STMoc-DECaLS-g.fits - generated by the CDS from the DECals survey in band g
+\end{itemize}
+
+On figure~\ref{fig:aladin1} we are showing Aladin with the space panel (above) and the time panel (below). Before the implementation of the STMOCs capabilities, the time time was simply showing the entire time range of the collection without any linkage with the space panel but the collection itself. Now with an active STMOC, it is quite different.
+
+Figure~\ref{fig:aladin2} is showing an area of the sky with an overlay of the HST B MOCs which is now corresponding to a narrow time window as seen on the time panel below. If we unzoom time panel, more and more MOCs will be showing up on the space panel because we are now using a wider time window as in figure~\ref{fig:aladin3}. This is expected since there are more and more observations in the area as we are widening our time window.
+
+On figure~\ref{fig:aladin4} we are showing 2 STMOCs on the sky (HST B and DECals) using a time window excluding about all observations above 2013. We immediately noticed that very few DECals observations are present while HST is dominating. This is different for figure~\ref{fig:aladin5} where we are showing all observations above 2016. This time this period is showing a big amount of observations in a narrow window of time in a given patch of the sky for the DECals (it is a survey) while HST is still observing multiple part of the sky on a regular basis.
+
+
+Finally, on figure~\ref{fig:Saturn}, we are showing the results of the intersect function of all the HST public observations and the ephemeris of Jupiter ans Saturn respectively. For Jupiter, we are showing the preview of one observation which was identified as an intersect between their respective STMOC. 
+
+\begin{figure}[ht]
+\begin{center}
+\includegraphics[scale=0.15]{STMOC1.jpg}
+\end{center}
+\caption{Aladin with a TMOC display}
+\label{fig:aladin1}
+\end{figure}
+
+\begin{figure}[ht]
+\begin{center}
+\includegraphics[scale=0.15]{STMOC2.jpg}
+\end{center}
+\caption{HST B MOCs for a narrow time window}
+\label{fig:aladin2}
+\end{figure}
+
+\begin{figure}[ht]
+\begin{center}
+\includegraphics[scale=0.15]{STMOC3.jpg}
+\end{center}
+\caption{HST B MOCs with a wide time window}
+\label{fig:aladin3}
+\end{figure}
+
+\begin{figure}[ht]
+\begin{center}
+\includegraphics[scale=0.15]{STMOC4.jpg}
+\end{center}
+\caption{HST B and DECals for 2013}
+\label{fig:aladin4}
+\end{figure}
+
+\begin{figure}[ht]
+\begin{center}
+\includegraphics[scale=0.15]{STMOC5.jpg}
+\end{center}
+\caption{HST B and DECals for 2016}
+\label{fig:aladin5}
+\end{figure}
+
+%\begin{figure}[ht]
+%\begin{center}
+%\includegraphics[scale=0.15]{Jupiter-ACS.jpeg}
+%\caption{STMOC intersection between Jupiter ephemeris and HST's ACS observations}
+%\end{center}
+%\label{fig:Jupiter}
+%\end{figure}
+
+\begin{figure}[ht]
+\begin{center}
+\includegraphics[scale=0.15]{Jupiter-ACS.jpeg}
+\caption{STMOC intersection between Jupiter ephemeris and HST's ACS observations}
+\includegraphics[scale=0.15]{Saturn-ACS2.jpeg}
+\caption{STMOC intersection between Saturn ephemeris and HST's ACS observations}
+\end{center}
+\caption{}
+\label{fig:Saturn}
+\end{figure}
+
+\begin{figure}[!ht] 
+\centering
+\begin{minipage}[t]{6.0cm} 
+\centering
+\includegraphics[width=5.5cm]{M31_1.jpg}
+\caption{HST observation of M31 between 1990 and 1991} 
+\end{minipage} 
+\begin{minipage}[t]{6.0cm}
+\centering 
+\includegraphics[width=5.5cm]{M31_2.jpg} 
+\caption{HST observation of M31 between 1992 and 1993}
+\end{minipage} 
+\end{figure}
+
+\begin{figure}[!ht] 
+\centering
+\begin{minipage}[t]{6cm} 
+\centering
+\includegraphics[width=5.5cm]{M31_3.jpg}
+\caption{HST observation of M31 between 1996 and 1997} 
+\end{minipage} 
+\begin{minipage}[t]{6cm}
+\centering 
+\includegraphics[width=5.5cm]{M31_4.jpg} 
+\caption{HST observation of M31 between 2008 and 2009}
+\end{minipage} 
+\end{figure}
+
+
+\section{MOC encoding}
+
+\subsection{SMOC}
+
+\subsubsection{ General description}
+
+\subsubsection{ASCII Serialization}
+
+\subsubsection{Binary Serialization}
+
+
+\subsection{TMOC}
+
+\subsubsection{ General description}
+The Time Multi-Order Coverage (TMOC) capability is based on the technology developed for the Multi-Ordered Coverage maps (MOCs), replacing the HEALPix space discretization with a time scale and therefore restricting to one axis instead of the sphere \citep[][]{MOC}. With TMOC the user can manipulate the time coverage the same way he/she was able to manipulate the space coverage using Aladin or other compatible clients such as MOCPy. The user can also perform operations such as intersections or unions of different time coverages, or generate new time coverage from catalog or images collection. 
+
+\label{sec:tmoc1}
+Creating TMOCs was made possible with a very simple modification of the basic MOC java library since it is based on the same algorithm. 
+The cell definition we have adopted for a fix time scale is shown in Table~\ref{table:tmoc}. As you noticed we kept the factor 4 used in the MOC standard so we could
+reuse as much code as possible. The main difference is triggered by the infinite nature of the time axis, there is essentially no beginning and time. So we are forcing the 
+time order definition in seuch a way that we can cover about 9133 years which is quite adequate to represent most if not all 
+astronomical events.
+
+In order to represent time coverage, we need to select a-priori the total range of time that we will cover with the notation. It is similar to what it is done for the sphere which is topologically close which is not the case of the time. Also, because we did want to reuse as much as possible the algorithms which were developed for the space MOC, we need to define a scale in such a way that the step between two orders is always a factor of 4 smaller (or bigger).
+
+Here are the conventions we defined to establish such a scale:
+
+\begin{itemize}
+\item The spatial MOC is simply defined as a list of HEALPix pixels, hierarchically grouped. To define the TMOC, we are simply using a list of time intervals.
+\item The time scale contains 29 orders and the time coverage for the deepest level is = 1 $\mu$second.
+\item The time values are defined using JD = 0 as the origin.
+\item In using the same dynamic range than the spatial MOC, we can address 4E29 micro-seconds, i.e. 9133y 171d 11h 22m 31.711744s, essentially covering 4714BC to  4419AD.
+\item At the deepest order, 29, the TMOC cell number is the number of $\mu$second since JD$=$0
+\end{itemize}
+
+Table~\ref{table:tmoc} is showing some time values at a given order:
+
+\begin{table}[!ht]
+\smallskip
+\begin{center}
+	{\small
+	\begin{tabular} {|l | l|}
+	\hline
+	order & Cell Resolution \\
+	\hline
+	0 & 9133y 171d 11h 22m 31.711744s \\
+	1 & 570y 307d 11h 35m 9.481984s \\
+	2 & 570y 307d 11h 35m 9.481984s \\
+	... & ... \\
+	6 & 2y 83d 22h 52m 24.177664s \\
+	... & ... \\
+	12 & 4h 46m 19.869184s \\
+	... & ...\\
+	22 & 16.384ms \\
+	... & ... \\
+	27 & 16 $\mu$s \\
+	28 & 4 $\mu$s \\
+	29 & 1 $\mu$s \\
+	\hline
+	\end{tabular}
+	}
+\end{center}
+\caption{TMOC cell definition covering 9133y 171d 11h 22m 31.711744s}
+\label{table:tmoc}
+\end{table}
+
+
+\subsubsection{ASCII Serialization}
+Representing the TMOC is a bit difficult since we have to show the time intervals in which the corresponding MOC has been obtained. For this, we chose a graphical approach, showing the time intervals with the capability to zoom in and out and move the time interval displayed left and right (see figure~\ref{fig:tmoc}). TMOCs can be generated using the latest release (0.5.6) of the MOCPy python tool (\url{https://mocpy.readthedocs.io/en/latest/}) or Aladin/HipsGen.
+
+Note that to generate a TMOC which is interoperable we fixed the format to JD, the time scale TCB, and the Barycenter of the Solar System as the reference position \citep[see also][]{TMOCADASS} and section~\ref{sec:tmoc1}. If neither the time scale nor the time reference position are known, we recommend to set the time resolution of the generated TMOC to level 13, e.g. about 1000 seconds (see Table~\ref{table:tmoc}) corresponding to about twice the light travel time correction between the Earth and the Solar Barycentre. Please refer to the VO note on TIMESYS for more information about this limitation \citep{timesysnote}.
+
+\begin{figure}[th]
+\begin{center}
+\includegraphics[width=1.0\textwidth]{Image1.jpg}
+\end{center}
+\caption{A TMOC for the HST images in the SDSSr filter produced with the MOCPy library}
+\label{fig:tmoc}
+\end{figure}
+
+\subsubsection{Binary Serialization}
+
+\subsection{STMOC}
+
+\subsubsection{ General description}
+For the generation of STMOC we select a battleship approach. Easy to understand in the following example. We will start our example at the deepest level. In the Figure~\ref{fig:battleship1} time cells (TMOC) are shown in green and are represented on the vertical axis of this 2D-table, the space cells (MOC) in red and are along the horizontal axis and the actual SPACE-TIME coverage of my observations/or catalogs is represented as yellow cells in the table.
+
+\begin{figure}[th]
+\begin{center}
+\includegraphics[width=1.0\textwidth]{Tableau_a.jpg}
+\end{center}
+\caption{Space and Time coverage at lowest level (i.e. 29).}
+\label{fig:battleship1}
+\end{figure}
+
+In figure~\ref{fig:battleship1}, we are in presence of the following coverages.
+
+\begin{lstlisting}
+t=0		s=0,1,2
+t=2		s=0,1,2,3
+t=3,4,5,6,7	s=2,5
+\end{lstlisting}
+
+To keep everything simple, we have adopted this natural syntax to encode this 2D coverage where the difference between the space and the time values are indicated respectively by t and s. 
+
+We experimented a few methods to represent the STMOC in ASCII. We end up with the following scenario using a compact range representation where '-' is the range operator and ',' is the enumeration operator:
+
+\begin{lstlisting}
+t0s0-2 t2s0-3 t3-7s2,5
+\end{lstlisting}
+
+The index of MOC can be hierachized, when not specified the deepest MOC level (order 29) is assumed. If the order is required it can be explicitely written. For the previous example as follows: 
+
+\begin{lstlisting}
+t29/0 s29/0-2 t29/2 s28/0 t28/1 29/3 s29/2,5
+\end{lstlisting}
+
+Please note here that we are extending the already established ASCII notation of the MOC~\citep{std:MOC}. Following our exemple, the coding at the upper level (order 28) is shown in the figure~\ref{fig:battleship2}:
+
+\begin{figure}[th]
+\begin{center}
+\includegraphics[width=1.0\textwidth]{Tableau_b.jpg}
+\end{center}
+\caption{Space and Time coverage at level 29 and the grouping for level 28.}
+\label{fig:battleship2}
+\end{figure}
+
+\begin{table}[th]
+{\footnotesize
+\begin{tabular}{p{0.10\textwidth}p{0.7\textwidth}p{0.2\textwidth}}
+\sptablerule
+\textbf{MOC type}&\textbf{Order/resolution}&\textbf{(ST)MOC size}\\
+\sptablerule
+SMOC	&	spaceOrder$=$13 (25") & 632KB \\
+SMOC	&	spaceOrder$=$10 (25") & 102KB \\
+TMOC	&	timeOrder$=$29 (4$\mu$s)	& 197KB \\
+STMOC	&	timeOrder$=$29 (4$\mu$s),spaceOrder$=$13 (25") & 5.42MB \\
+STMOC	&	timeOrder$=$18 (4s),timeOrder$=$18 (4s) & 5.41MB \\
+STMOC	&	timeOrder$=$15 (4mn),spaceOrder$=$13 (25") & 4.85MB \\
+STMOC	&	timeOrder$=$11 (19h),spaceOrder$=$13 (25") & 2.32MB \\
+STMOC	&	timeOrder$=$10 (3d),spaceOrder$=$13 (25") & 2.02MB \\
+STMOC	&	timeOrder$=$6 (2y),spaceOrder$=$13 (25") & 1.46MB \\
+STMOC	&	timeOrder$=$3 (142y),spaceOrder$=$13 (25") & 1.25MB \\
+\sptablerule
+\end{tabular}
+\caption{MOC type and size for the STMOC for HST filter B, order spatial 13, 211048 tiles}
+\label{table:stmoc}
+\normalsize
+}
+\end{table}
+
+\begin{table}[th]
+{\scriptsize
+\begin{tabular}{p{0.10\textwidth}p{0.5\textwidth}p{0.1\textwidth}p{0.3\textwidth}}
+\sptablerule
+\textbf{MOC type}&\textbf{Order/resolution}&\textbf{compute time}&\textbf{STMOC size}\\
+\sptablerule
+STMOC	&	timeOrder$=$14 (17mn),spaceOrder$=$13 (25") & 0.66 s & 1.66MB (using central position)\\
+STMOC	&	timeOrder$=$14 (17mn),spaceOrder$=$13 (25") & 55.7 s & 15.6MB (using s\_region)\\
+STMOC	&	timeOrder$=$11 (19h5m),spaceOrder$=$10 (3.45') & 0.4 s & 432KB (using central region)\\
+STMOC	&	timeOrder$=$11 (19h5m),spaceOrder$=$10 (3.45') & 9.4 s & 858KB (using s\_region) \\
+\sptablerule
+\end{tabular}
+\caption{MOC type and size for the STMOC for all HST ACS public 211426 science observations from CADC's OBSCORE }
+\normalsize
+}
+\label{table:stmoc2}
+\end{table}
+\subsubsection{ASCII Serialization}
+It is important to note that now, in order to be able to distinguish the three times of coverage, MOC, TMOC and STMOC, we are introducing a few mandatory keywords in their respective FITS representation:
+\begin{itemize}
+\item MOC = SPACETIME, or MOC = TIME or MOC = SPACE. The default would be SPACE to simplify the retrofitting exercise.
+\item ORDERING = RANGE29 (replacing NUNIQ)
+\item MORDER = VALUE specifying the order resolution of the space
+\item TORDER = VALUE specifying the order resolution of the time
+\end{itemize}
+
+\subsubsection{Binary Serialization}
+We know that the memory representation is up to the client. For the MOC CDS's library used by Aladin, we have adopted a representation general enough to allow indexation on both space or time and compact enough to fit in memory allowing rapid interactions. We selected to use the time as our primary index which is expressed as a list of intervals. For each of time interval we explicitely list the associated space ranges. In other words, for each time interval:
+
+\begin{lstlisting}
+[tmin1..tmax1[, [tmin2..tmax2[, ... [tminN..tmaxN[
+\end{lstlisting}
+and for each time interval we list the spatial intervals
+\begin{lstlisting}
+[npixmin1...npixmax1[,
+[npixmin2...npixmax2[, etc.
+\end{lstlisting}
+
+\begin{lstlisting}
+t211863263468584960-211863264542326783 s3/40
+Displaying this in ascii and converting the time cell number in ISO,
+we obtain:
+'2001-07-30T14:31:08.585'-'2001-07-30T14:49:02.327' s3/40
+\end{lstlisting}
+
+% si on veut convertir le 12/05/19: 58615
+% cell_index = int(t.jd * (86400 * 1e6))
+% print(ell_index)
+% 212424379200000000
+
+% et l'inverse
+%>>> cell_idx = 212424379200000000
+%>>> t = Time(cell_idx/(86400 * 1e6), format='jd')
+%>>> t.iso
+%'2019-05-12 00:00:00.000'
+
+
+\subsubsection{STMOC: binary representation}
+We reuse the FITS representation to be as close as possible to the present configuration of the (space) MOCs VO standard. But we need also to accomodate a more complex structure in such a way that the load of the STMOC FITS into memory has to be efficient. To be able to accomodate these requirements, we are proposing a format which alternates the space and time range values while using the negative values to easily distinguish the space from the time values in the FITS array. We are writing our values using their coverage ranges at the deepest level, i.e. level 29 (instead of using the NUNIQ notation which coded the value and the order both together in a LONG INTEGER). 
+Using this methodology, our example will become:
+
+\begin{lstlisting}
+-0 -1 0 3 -2 -3 0 4 -3 -8 2 3 5 6
+\end{lstlisting}
+
+This is really compact. The values are always in packets of 2 numbers and always represent ranges. The negative numbers are associated with the time dimension, the positive the space.
+
+\begin{figure}[th]
+\begin{center}
+\includegraphics[width=1.0\textwidth]{Tableau_d.jpg}
+\end{center}
+\caption{Same as Fig.~\ref{fig:battleship2} but showing the Space range for each Time range}
+\label{fig:battleship3}
+\end{figure}
+
+\section{STMOC Size and Performances}
+
+The MOC describes a sky region as an explicit list of cells. The resulting size of this list can vary a lot from a few bytes to several kilobytes and more. Since MOC is hierarchical, its size mainly depends on two factors:
+\begin{itemize}
+\item The chosen STMOC resolution (SPATIAL and TEMPORAL)
+\item The geometry of the region (?compactness?) and its time coverage
+\end{itemize}
+
+When STMOCs are used to describe pixel survey coverages, the number of cells depends on the size of the coverage perimeter in space and time (size of borders) . 
+When we want to describe source catalog coverages, the number of cells depends of the distribution and the density of the sources in the catalog 
+%\ada {(for instance, for a catalog with a low density and a high distribution, it is possible to choose a very good STMOC resolution without increasing the STMOC size significantly ? see appendix B).}
+
+As an example, please look at the following table for the HST ACS observations:
+
+%\begin{table}[!th]
+%\smallskip
+%\begin{center}
+%{\small
+%\begin{tabular} 
+%\hline
+%\textbf{Torder} & \textbf{Sorder} & \textbf{Time Resolution} & \textbf{Space Resolution} & \textbf{#time ranges} & \textbf{Size} & \textbf{Generation time}\\
+%\hline
+%29 &29 &1 ??s &393.2 ??as &126636 &4.2MB &3.4s \\
+%20 &14 &262ms &12.9? &126636 &3.9MB & 3.0s \\
+%14 &20 &18mn &201.3 mas &70632 &2.8MB &2.2s \\
+%14 &14 &18mn &12.9? &52732 &1.8MB &1.4s \\
+%14 &10 &18mn &3.245' &43843 &1.4MB &1.2s \\
+%10 &14 &3d 4h &12.9? &1856 &498KB & 0.3s \\
+%10 &10 &3d 4h &3.245' &1854 &314KB &0.27s \\
+%3 &3 &143 y &7.329? &1 &342B & 0.4s \\
+%\hline
+%\end{tabular}
+%}
+%\end{center}
+%\caption{MOC type and size for the STMOC for all HST ACS public 211426 science observations from CADC's OBSCORE }
+%\normalsize
+%\label{table:stmocsize}
+%\end{table}
+
+The actual implementation of the STMOC in Aladin is surprisingly fast. It is true that we did some limited testing but the performances we obtain are quite reasonnable. 
+\begin{itemize}
+\item Computing the intersection between a given STMOC interval, like the one above: t211863263468584960-211863264542326783 s3/40, and the HST B STMOC (211048 tiles) with a spatial resolution of 25": 1,6 ms
+\item Computing the space MOC for the HST B STMOC: 20 ms
+\end{itemize}
+
+\section{STMOC production}
+
+\subsection{Aladin}
+In order to verify the usability of the STMOC encoding procedure, we have implemented an elementary usage of the STMOC using Aladin. Although it is hard to perform a demonstration of the concept visually within a note, we did a few screen captures to illustrate the concept and its usefulness.
+%\ada{add the pymoc}
+
+\subsection{Python library: Mocpy}
+
+\section{Querying ADQL using STMOC?}
+
+\section{Conclusions}
+
+We have described the necessary mechanism required to implement the dimension of time in our already successful spatial MOC. The creation of an STMOC is helping to define precisely any catalogue and collections using their coverage in space and time very precisely. We want to restate that the implementation of a TIMESYS \citep{timesysnote}
+
+May be even the VO registry could think about using the STMOC concept to define the coverage for a more precise registry search. 
+
+The implementation of the STMOC could be found in the prototype
+version of Aladin on the Aladin web site (\url{https://aladin.unistra.fr/java/AladinProto.jar})
+
+
+%\section{Version History}
+
+
+%\bibliography{ivoatex/ivoabib,ivoatex/docrepo,moc}
+
+%\section{Introduction}
+%The main idea is to connect space and time coverages so that a user can learn and visualize when and where observations have taken place. When selecting a desired time coverage, the corresponding space coverage should be shown, and vice-versa, a given space selection should display the corresponding time coverage: this is what we call a Space-Time MOC (STMOC). In order to achieve this goal, we have extented and mixed the original MOC structure with the new time coverage definition (TMOC). Using the proper coding it would then be possible to operate on MOCs using their time or space definition. 
+
+%In the following sections we will start by describing the TMOC structure and usage, and will then follow with the description of the STMOC structure for its ASCII and FITS serialization and a
+%description of our selected memory representation. We will then show how Aladin handles STMOCs. 
+
+
+\end{document}
+
+

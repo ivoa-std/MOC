@@ -1,0 +1,12 @@
+**/*.aux
+**/*.bbl
+**/*.bcf
+**/*.blg
+**/*.dvi
+**/*.log
+**/*.out
+**/MOC.synctex.gz
+**/MOC.ps
+**/MOC.pdf
+**/MOC.fls
+**/MOC.fdb_latexmk
