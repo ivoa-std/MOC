@@ -600,10 +600,10 @@ SMOC, TMOC and STMOC serializations and are presented below.
 To encode a MOC in a FITS file, each MOC pair (order, index) {\bf
   must} be stored in a FITS binary table. Two packaging modes are
 defined: either all MOC pairs (order, index) are stored individually
-thanks to NUNIQ packaging (for SMOC), or all ranges of indices at the deepest
+thanks to NUNIQ packaging, or all ranges of indices at the deepest
 order are stored following the RANGE packaging.
 
-\paragraph{NUNIQ Packaging (only for SMOC)}
+\paragraph{NUNIQ Packaging}
 The NUNIQ scheme defines an algorithm for packaging a MOC pair (order,
 index) into a single integer for compactness:
 \begin{Verbatim}[frame=single]
@@ -617,11 +617,11 @@ The inverse operation is:
     index = uniq – 4 * (4^order)
 \end{Verbatim}
 
-\par\noindent The list of cells {\bf must} be well-formed, and the
-UNIQ values {\bf must} be in ascending numerical order. The resulting
+\par\noindent The list of cells {\bf must} be well-formed allowing
+to express both hierarchy or range representation. The resulting
 list is stored in a single-column binary table extension. For
-order<=13 these UNIQ values can be stored in a 32-bit signed integer
-(TFORM1='J') , and for order<=29 in a 64-bit signed integer
+lower orders these UNIQ values can be stored in a 32-bit signed integer
+(TFORM1='J') , and for the higher orders in a 64-bit signed integer
 (TFORM1='K').
 
 \paragraph{RANGE packaging}
