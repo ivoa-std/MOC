@@ -745,8 +745,9 @@ and their corresponding space coverage ranges. Following the binary
 RANGE serialization method described below, each range (time or space)
 is coded as two 64-bit signed integers ([min..max[). To distinguish time
 and space indices, the time indices {\bf must} have the 64th bits forced
-to 1 - i.\,e. represented as a negative integer (twos complement negative).
-The order of dimensions is always time first.
+to 1. It is not a sign inversion (two's complement) but a mask affecting
+only that last bit without touching any other bits.  The order of
+dimensions is always time first.
 
 \paragraph{STMOC interleaving method}
 \begin{adjustbox}{center,caption={STMOC encoding with two independent
@@ -756,9 +757,10 @@ The order of dimensions is always time first.
 \end{adjustbox}
 
 \par\noindent
-This list of ranges will be  coded in in a list of 64bits signed integers as:
+This list of ranges will be  coded in in a list of 64bits integers
+(time indices with the 64th bit forced to 1) as:
 \begin{verbatim}
-   -tmin1 -tmax2 smin1 smax1 -tmin2 -tmax2 smin2 smax2 smin3 smax3
+   tmin1 tmax2 smin1 smax1 tmin2 tmax2 tmin3 tmax3 smin2 smax2 smin3 smax3
 \end{verbatim}
 
 STMOC encoding must conform to the following simple rules:
