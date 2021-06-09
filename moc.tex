@@ -689,11 +689,11 @@ Cell:      & 1    & 2 & 4 & 12 to 14 & 21 & 23 & 25 & \\
 
 \paragraph{EBNF definition of an ASCII MOC:}
 \begin{Verbatim}[frame=single]
-  moc ::= ordpix (sep+ ordpix)* [sep+ order]
-  ordpix ::= order sep* pixs
+  moc ::= ordval (sep+ ordval)* [sep+ order]
+  ordval ::= order sep* vals
   order ::= int ’/’
-  pixs ::= pix (sep+ pix)*
-  pix ::= int? | (int ’-’ int)
+  vals ::= val (sep+ val)*
+  val ::= int? | (int ’-’ int)
   sep ::= [ \n\r]
   int ::= [0-9]+
 \end{Verbatim}
