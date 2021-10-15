@@ -20,7 +20,7 @@ MOCORDER should be provided with an empty index list.
 As with ASCII encoding, the differentiation of a spatial MOC from a temporal MOC could be done by prefixing the JSON MOC with an 's' or a 't' using a dedicated JSON hierarchy level. In the absence of this information, the nature of the MOC is determined by its context of use.
 
 \par\noindent
-\begin{verbatim}[frame=single]
+\begin{Verbatim}[frame=single, xrightmargin=-3cm] 
      {"t": { “order”:[index,index,...], “order”:[index, index...], ... } }
   or {"s": { “order”:[index,index,...], “order”:[index, index...], ... } }
 \end{verbatim}
@@ -28,7 +28,7 @@ As with ASCII encoding, the differentiation of a spatial MOC from a temporal MOC
 
 The coding of an STMOC will then be a list of couples (SMOC,TMOC) formalized in the following way:
 \par\noindent
-\begin{verbatim}[frame=single]
+\begin{Verbatim}[frame=single, xrightmargin=-3cm] 
      [
         {"t": { “order”:[index,index,...], “order”:[index, index...], ... } },
         {"s": { “order”:[index,index,...], “order”:[index, index...], ... } },
