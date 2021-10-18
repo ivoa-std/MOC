@@ -1,0 +1,50 @@
+\section{JSON encoding}
+If it is required to write a MOC as an JSON string,
+it is suggested to use the following syntax:
+
+\par\noindent
+\begin{Verbatim}
+   { “order”:[index,index,...], “order”:[index, index...], ... }
+\end{Verbatim}
+
+As for the ASCII MOC serialization, if the best resolution
+of the MOC (MOCORDER) is greater than the greatest stored order, the
+MOCORDER should be provided with an empty index list.
+
+\paragraph{Example of a JSON SMOC or TMOC:}
+\par\noindent
+\begin{Verbatim}[frame=single]
+    {“1“:[1,2,4], “2“:[12,13,14,21,23,25], “8“:[]}
+\end{Verbatim}
+
+As with ASCII encoding, the differentiation of a spatial MOC from a temporal MOC could be done by prefixing the JSON MOC with an 's' or a 't' using a dedicated JSON hierarchy level. In the absence of this information, the nature of the MOC is determined by its context of use.
+
+\par\noindent
+\begin{Verbatim}[frame=single, xrightmargin=-3cm] 
+     {"t": { “order”:[index,index,...], “order”:[index, index...], ... } }
+  or {"s": { “order”:[index,index,...], “order”:[index, index...], ... } }
+\end{Verbatim}
+
+
+The coding of an STMOC will then be a list of couples (SMOC,TMOC) formalized in the following way:
+\par\noindent
+\begin{Verbatim}[frame=single, xrightmargin=-3cm] 
+     [
+        {"t": { “order”:[index,index,...], “order”:[index, index...], ... } },
+        {"s": { “order”:[index,index,...], “order”:[index, index...], ... } },
+        ...
+        {"t": { “order”:[index,index,...], “order”:[index, index...], ... } },
+        {"s": { “order”:[index,index,...], “order”:[index, index...], ... } }
+     ]
+\end{Verbatim}
+
+If the spatial or temporal orders of the last "order":[index,index,...] pair is lower than the respective spatial or temporal MOCORDER, then add an additional pair at the highest order with an empty index list.
+
+\paragraph{Example of a JSON STMOC:}
+\par\noindent
+\begin{Verbatim}[frame=single]
+   [  { "t":{ "61":[0]}, "s":{ "29":[0,1,2]},
+      { "t":{ "61":[2]}, "s":{ "28":[0]} },
+      { "t":{ "61":[]}, "s":{ "29":[]} ]
+\end{Verbatim}
+

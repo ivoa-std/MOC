@@ -7,7 +7,7 @@ DOCNAME = moc
 DOCVERSION = 2.0
 
 # Publication date, ISO format; update manually for "releases"
-DOCDATE = 2021-03-24
+DOCDATE = 2021-10-15
 
 # What is it you're writing: NOTE, WD, PR, or REC
 DOCTYPE = WD
