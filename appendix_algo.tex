@@ -8,14 +8,14 @@ practice is to store range sets of continuous cells [minValue
   .. maxValue[, instead of individual cells.
 
 \subsection{Union: moc1 $\cup$ moc2}
-\begin{verbatim}
+\begin{lstlisting}
    Map moc1 to rangeList
    Map moc2 in the same rangeList
    Unmap the resulting rangeList
-\end{verbatim}
+\end{lstlisting}
 
 \subsection{Intersection: moc1 $\cap$ moc2}
-\begin{verbatim}
+\begin{lstlisting}
    Map moc1 in rangeList1
    foreach order/index of moc2
         shift=2*(maxOrder-order)
@@ -23,18 +23,18 @@ practice is to store range sets of continuous cells [minValue
               [index << shift .. index+1 << shift[
         and   the corresponding range(s) of rangeList1
    Unmap rangeList2
-\end{verbatim}
+\end{lstlisting}
 
 \subsection{Map: moc To rangeList}
-\begin{verbatim}
+\begin{lstlisting}
    foreach order/index of moc
          shift=2*(maxOrder-order)
          append in rangeList [index << shift , (index+1) << shift[
          (the range overlapping must be adjusted)
-\end{verbatim}
+\end{lstlisting}
 
 \subsection{Unmap: rangeList To moc}
-\begin{verbatim}
+\begin{lstlisting}
    for order = 0 to maxOrder
       end if rangeList is empty
       shift = 2*(maxOrder-order)
@@ -44,7 +44,7 @@ practice is to store range sets of continuous cells [minValue
                m1 = (min+offset) >> shift
                m2 = max >> shift
          remove from rangeList [m1<<shift .. m2<<shift[
-\end{verbatim}
+\end{lstlisting}
 
 \section{Basic HEALPix functions}
 For generating space MOC from observations, or drawing them on the
@@ -71,9 +71,10 @@ For generating TMOC from observations, a time library might be required to conve
 \item \url{http://javastro.github.io/jsofa/}
 \item \url{https://docs.astropy.org/en/stable/time/#module-astropy.time}
 \item Obtain the index from the JD: 
-\begin{Verbatim}
-  static public long getMicrosec(double jd, long offset) {
-      long micron = (long)(jd*DAYMICROSEC);
-      return micron + (offset*86400000000L);
-\end{Verbatim}
+\begin{lstlisting}[language=C]
+static public long getMicrosec(double jd, long offset) {
+    long micron = (long)(jd*DAYMICROSEC);
+    return micron + (offset*86400000000L);
+}
+\end{lstlisting}
 \end{itemize} 

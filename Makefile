@@ -14,10 +14,13 @@ DOCTYPE = WD
 
 # Source files for the TeX document (but the main file must always
 # be called $(DOCNAME).tex
-SOURCES = $(DOCNAME).tex
+SOURCES = $(DOCNAME).tex appendix_algo.tex appendix_json.tex \
+	appendix_perf.tex table1.tex table2.tex table3.tex
 
 # List of pixel image files to be included in submitted package 
-#FIGURES = Image1.jpeg Image2.jpeg
+FIGURES = kilo.png kilo1.png kilo2.png kilo3.png kilo4.png \
+	STMOCbin.png operation.png panstarrs.png smoc_view.png stmoc_op.png \
+	stmoc_view.png tmoc_view.png
 
 # List of PDF figures (for vector graphics)
 VECTORFIGURES = 

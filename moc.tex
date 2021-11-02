@@ -7,9 +7,9 @@
 \usepackage[normalem]{ulem}
 \usepackage{fancyvrb}
 \usepackage{appendix}
-\lstloadlanguages{sh,make,[latex]tex}
+\lstloadlanguages{C}
 \lstset{flexiblecolumns=true,numberstyle=\small,showstringspaces=False,
-  identifierstyle=\texttt,defaultdialect=[latex]tex,language=tex}
+  basicstyle=\ttfamily,defaultdialect=[latex]tex,language=tex}
 
 \usepackage[colorinlistoftodos]{todonotes}
 
@@ -668,9 +668,9 @@ pair (order, cell), and the assumed best resolution would be at order 2.
 
 
 \paragraph{Example of an ASCII MOC:}
-\begin{Verbatim}[frame=single]
+\begin{lstlisting}[]
     1/1 2 4 2/12-14 21 23 25 8/
-\end{Verbatim}
+\end{lstlisting}
 
 \begin{table}[!htbp]
 \begin{center}
@@ -688,15 +688,15 @@ Cell:      & 1    & 2 & 4 & 12 to 14 & 21 & 23 & 25 & \\
 
 
 \paragraph{EBNF definition of an ASCII MOC:}
-\begin{Verbatim}[frame=single]
+\begin{lstlisting}[]
   moc ::= ordval (sep+ ordval)* [sep+ order]
   ordval ::= order sep* vals
-  order ::= int ’/’
+  order ::= int '/'
   vals ::= val (sep+ val)*
-  val ::= int? | (int ’-’ int)
+  val ::= int? | (int '-' int)
   sep ::= [ \n\r]
   int ::= [0-9]+
-\end{Verbatim}
+\end{lstlisting}
 
 
 If the context does not allow to distinguish a TMOC to a SMOC,
@@ -719,9 +719,9 @@ The character is thus omitted until the next dimension element is
 defined.
 
 \paragraph{Example of an ASCII STMOC:}
-\begin{Verbatim}[frame=single]
+\begin{lstlisting}[]
   t61/1 s29/0-2 t61/3 s28/0 t60/2 61/6 s29/2 5
-\end{Verbatim}
+\end{lstlisting}
 
 \begin{table}[!htbp]
 \begin{center}
@@ -759,9 +759,9 @@ dimensions is always time first.
 \par\noindent
 This list of ranges will be  coded in in a list of 64bits integers
 (time indices with the 64th bit forced to 1) as:
-\begin{verbatim}
+\begin{lstlisting}[]
    tmin1 tmax2 smin1 smax1 tmin2 tmax2 tmin3 tmax3 smin2 smax2 smin3 smax3
-\end{verbatim}
+\end{lstlisting}
 
 STMOC encoding must conform to the following simple rules:
 \begin{itemize}
@@ -789,7 +789,7 @@ Other FITS Keywords could be used to augment the information like DATES and ORIG
 %\clearpage 
 \paragraph{Example of FITS headers for a MOC:}
 \par\noindent
-\begin{Verbatim}[frame=single, fontsize=\small]
+\begin{lstlisting}[basicstyle=\footnotesize\ttfamily]
 SIMPLE   =                      T
 BITPIX   =                      8
 NAXIS    =                      0
@@ -818,7 +818,7 @@ ORIGIN   = 'ivo://CDS'           / MOC origin
 DATE     = '2013-06-15T11:50:43' / MOC creation date
 EXTNAME  = 'Tycho MOC'           / MOC name
 END
-\end{Verbatim}
+\end{lstlisting}
 
 \section{MOC usage constraints}
 
