@@ -1,4 +1,4 @@
-\documentclass[11pt,a4paper]{ivoa}
+\documentclass[11pt,a4paper]{ivoa} 
 \input tthdefs
 
 \usepackage{makecell}
@@ -606,16 +606,16 @@ order are stored following the RANGE packaging.
 \paragraph{NUNIQ Packaging}
 The NUNIQ scheme defines an algorithm for packaging a MOC pair (order,
 index) into a single integer for compactness:
-\begin{Verbatim}[frame=single]
-    uniq = 4 * (4^order) + index
-\end{Verbatim}
+$$
+    \textit{uniq} = 4 \cdot (4\,^\textit{order}) + \textit{index}
+$$
 
 \par\noindent
 The inverse operation is:
-\begin{Verbatim}[frame=single]
-    order = log2(uniq/4) /2
-    index = uniq – 4 * (4^order)
-\end{Verbatim}
+\begin{eqnarray*}
+    \textit{order} & = &\log_2(\textit{uniq}/4)/2\\
+    \textit{index} & = &\textit{uniq} - 4 \cdot (4\,^\textit{order})
+\end{eqnarray*}
 
 \par\noindent The list of cells {\bf must} be well-formed allowing
 to express both hierarchy or range representation. The resulting
