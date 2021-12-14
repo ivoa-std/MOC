@@ -23,7 +23,6 @@ jobs:
       run: |
         sudo apt update
         sudo apt install texlive-latex-base texlive-latex-recommended texlive-latex-extra texlive-fonts-recommended xsltproc latexmk cm-super
-        touch role_diagram.pdf
 
     - name: Build the document
       run: make

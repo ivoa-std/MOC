@@ -1,13 +1,25 @@
-**/*.aux
-**/*.bbl
-**/*.bcf
-**/*.blg
-**/*.dvi
-**/*.log
-**/*.out
-**/MOC.synctex.gz
-**/MOC.ps
-**/MOC.pdf
-**/MOC.fls
-**/MOC.fdb_latexmk
-role_diagram.svg
+
+#
+# Project specific excludes
+#
+#
+# ivoatex intermediate files
+*.aux
+*.bbl
+*.blg
+*.fdb_latexmk
+*.fls
+*.log
+*.out
+*.pdf
+*.toc
+*.lof
+*.lot
+ivoatexmeta.tex
+
+# OS
+.DS_Store
+
+# Misc
+*.swp
+
