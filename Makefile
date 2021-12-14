@@ -19,9 +19,9 @@ SOURCES = $(DOCNAME).tex role_diagram.pdf appendix_algo.tex appendix_json.tex \
 	appendix_perf.tex table1.tex table2.tex table3.tex
 
 # List of pixel image files to be included in submitted package 
-FIGURES = kilo.png kilo1.png kilo2.png kilo3.png kilo4.png \
-	STMOCbin.png operation.png panstarrs.png smoc_view.png stmoc_op.png \
-	stmoc_view.png tmoc_view.png
+FIGURES = healpix.jpg kilo.png kilo1.png kilo2.png kilo3.png kilo4.png role_diagram.svg \
+	nested_healpix.jpg operation.png panstarrs.png smoc_view.png stmoc_op.png \
+	stmoc_view.png tmoc_view.png STMOCbin.png
 
 # List of PDF figures (for vector graphics)
 VECTORFIGURES = 
