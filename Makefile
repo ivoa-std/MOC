@@ -14,7 +14,8 @@ DOCTYPE = PR
 
 # Source files for the TeX document (but the main file must always
 # be called $(DOCNAME).tex
-SOURCES = $(DOCNAME).tex appendix_algo.tex appendix_json.tex \
+
+SOURCES = $(DOCNAME).tex role_diagram.pdf appendix_algo.tex appendix_json.tex \
 	appendix_perf.tex table1.tex table2.tex table3.tex
 
 # List of pixel image files to be included in submitted package 
