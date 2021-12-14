@@ -1,11 +1,11 @@
-\contentsline {figure}{\numberline {1}{\ignorespaces IVOA architecture diagram}}{5}{figure.caption.1}% 
-\contentsline {figure}{\numberline {2}{\ignorespaces PanSTARRS observations and the associated spatial and temporal coverage within three different periods of time. The volume of the PanSTARRS MOC at a temporal resolution of about 17 minutes and spatial resolution of 52 arcsec is 320\,MB.\relax }}{7}{figure.caption.2}% 
-\contentsline {figure}{\numberline {3}{\ignorespaces Intersection of HST ACS observations and Saturn ephemeris Space-Time-MOC\relax }}{7}{figure.caption.3}% 
-\contentsline {figure}{\numberline {4}{\ignorespaces A mock electromagnetic follow-up campaign of a gravitational-wave sky localization over a time period (left). A schematic kilonova light-curve with the observations temporal coverage (top right) and associated spatial coverage (bottom right).\relax }}{9}{figure.caption.4}% 
-\contentsline {figure}{\numberline {5}{\ignorespaces HEALPix partition of the sphere\relax }}{12}{figure.caption.5}% 
-\contentsline {figure}{\numberline {6}{\ignorespaces SMOC: from the image to the list of numbers based on HEALPix hierarchy tessellation\relax }}{13}{figure.caption.6}% 
-\contentsline {figure}{\numberline {7}{\ignorespaces TMOC: from the time series to the list of numbers based on time discretization\relax }}{15}{figure.caption.9}% 
-\contentsline {figure}{\numberline {8}{\ignorespaces STMOC visual representation in which at at given TMOC range we obtain the corresponding SMOC\relax }}{16}{figure.caption.10}% 
-\contentsline {figure}{\numberline {9}{\ignorespaces HEALPix numbering principle\relax }}{17}{figure.caption.11}% 
-\contentsline {figure}{\numberline {10}{\ignorespaces STMOC encoding with two independent numbering system\relax }}{22}{figure.caption.14}% 
-\contentsline {figure}{\numberline {11}{\ignorespaces Visualisation of MOC operations}}{25}{figure.caption.16}% 
+\contentsline {figure}{\numberline {1}{\ignorespaces IVOA architecture diagram}}{5}{figure.caption.1}%
+\contentsline {figure}{\numberline {2}{\ignorespaces PanSTARRS observations and the associated spatial and temporal coverage within three different periods of time. The volume of the PanSTARRS MOC at a temporal resolution of about 17 minutes and spatial resolution of 52 arcsec is 320\,MB.\relax }}{7}{figure.caption.2}%
+\contentsline {figure}{\numberline {3}{\ignorespaces Intersection of HST ACS observations and Saturn ephemeris Space-Time-MOC\relax }}{7}{figure.caption.3}%
+\contentsline {figure}{\numberline {4}{\ignorespaces A mock electromagnetic follow-up campaign of a gravitational-wave sky localization over a time period (left). A schematic kilonova light-curve with the observations temporal coverage (top right) and associated spatial coverage (bottom right).\relax }}{9}{figure.caption.4}%
+\contentsline {figure}{\numberline {5}{\ignorespaces HEALPix partition of the sphere\relax }}{12}{figure.caption.5}%
+\contentsline {figure}{\numberline {6}{\ignorespaces SMOC: from the image to the list of numbers based on HEALPix hierarchy tessellation\relax }}{13}{figure.caption.6}%
+\contentsline {figure}{\numberline {7}{\ignorespaces TMOC: from the time series to the list of numbers based on time discretization\relax }}{15}{figure.caption.9}%
+\contentsline {figure}{\numberline {8}{\ignorespaces STMOC visual representation in which at at given TMOC range we obtain the corresponding SMOC\relax }}{16}{figure.caption.10}%
+\contentsline {figure}{\numberline {9}{\ignorespaces HEALPix numbering principle\relax }}{17}{figure.caption.11}%
+\contentsline {figure}{\numberline {10}{\ignorespaces STMOC encoding with two independent numbering system\relax }}{21}{figure.caption.14}%
+\contentsline {figure}{\numberline {11}{\ignorespaces Visualisation of MOC operations}}{25}{figure.caption.16}%
