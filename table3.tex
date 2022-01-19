@@ -11,13 +11,13 @@
    ORDERING & The packaging method used. It is either NUNIQ (V1.1 or V2.0 SMOC) or RANGE (V2.0). & mandatory & mandatory \\
    COORDSYS & The coordinate system in use. The value {\bf must} be 'C' for SMOC (ICRS). & mandatory & mandatory  \\
    TIMESYS  &  The time system in use. The value {\bf must} be 'TCB' for TMOC.  & NA & mandatory \\
-   MOCID    & Original data identifier. If the original data set has been declared in the VO registry [11]\citep{2020arXiv200707519D}, we strongly encourage to use the IVOA identifier (ex: "ivo://wfau.roe.ac.uk/twomass-dsa"). & optional & optional \\
+   MOCID    & Original data identifier. For MOCs that are coverages of VO resources, in particulary those used in VODataService 1.2 coverage elements \citep{2021ivoa.spec.1102D}, MOCID can contain the IVOA id of the VO resource described. & optional & optional \\
    MOCTOOL  & The name of the MOC software generator. It is also recommended to add the software version number to its name. & optional & optional \\
    MOCTYPE  & Provenance data type. Either 'IMAGE', or 'CATALOG'. In the first case for areas computed from existing images and/or footprint or even STC strings, in the second case for areas computed from a collection of point sources using a unique and/or derived area. & optional & optional \\
    MOCORD\_S  & Best resolution of the space dimension, expressed as the order. & NA & mandatory\\
    MOCORD\_T  & Best resolution of the time dimension, expressed as the order. & NA & mandatory \\
-   \textit{MOCORDER} & Best resolution of the space dimension, expressed as the order. & mandatory & NA \\
-   \textit{PIXTYPE} & 'HEALPIX'  & mandatory & NA \\
+   MOCORDER & Best resolution of the space dimension, expressed as the order. & mandatory & NA \\
+   PIXTYPE & 'HEALPIX'  & mandatory & NA \\
    \hline
    \end{tabular}
    }

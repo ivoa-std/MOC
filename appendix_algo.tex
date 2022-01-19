@@ -65,16 +65,38 @@ in all HEALPix libraries are the following :
 \end{itemize}
 
 \section{Basic time functions} 
-For generating TMOC from observations, a time library might be required to convert the dates are not expressed in JD TCB
+For generating TMOC from observations, a time library might be required
+to convert the dates are not expressed in JD TCB
 \begin{itemize} 
 \item \url{http://www.iausofa.org/}
 \item \url{http://javastro.github.io/jsofa/}
 \item \url{https://docs.astropy.org/en/stable/time/#module-astropy.time}
-\item Obtain the index from the JD: 
+\item Obtain the index from the JD: calculating the TMOC index from
+  a JD expressed as a double can be done by simple multiplication,
+  but will only allow millisecond accuracy around the present time
+  because of the conversion from double to long. 
+
 \begin{lstlisting}[language=C]
-static public long getMicrosec(double jd, long offset) {
-    long micron = (long)(jd*DAYMICROSEC);
-    return micron + (offset*86400000000L);
-}
+    long getMicrosec(double jd) {
+        return (long)(jd*86400000000L);
+    }
 \end{lstlisting}
+
+To guarantee microsecond accuracy, a solution may be to use a second 
+parameter to indicate an origin expressed as a long integer from JD=0,
+close to the observation dates, and to use the offsets of these
+observations, expressed as double, from this new origin.
+
+\begin{lstlisting}[language=C]
+    long getMicrosec(double offset, long origin) {
+        long x = (long)(offset*86400000000L);
+        return x + (origin*86400000000L);
+    }     
+\end{lstlisting}
+
+%\begin{lstlisting}[language=C]
+%static public long getMicrosec(double jd, long offset) {
+%    long micron = (long)(jd*DAYMICROSEC);
+%    return micron + (offset*86400000000L);
+%}
 \end{itemize} 
