@@ -698,7 +698,7 @@ Cell:      & 1    & 2 & 4 & 12 to 14 & 21 & 23 & 25 & \\
   ordval ::= order sep* vals
   order ::= int '/'
   vals ::= val (sep+ val)*
-  val ::= int? | (int '-' int)
+  val ::= int | (int '-' int)
   sep ::= [ \n\r]
   int ::= [0-9]+
 \end{lstlisting}
