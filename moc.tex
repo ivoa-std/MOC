@@ -117,7 +117,7 @@ develop standards and infrastructure that enable VO applications.
 \end{figure}
 
 \section{Introduction}
-This document is a Working Draft of an extension of a major release of
+This document is an extension of a major release of
 the already existing encoding method recommendation \emph{Multi-Order
   Coverage} map \citep[MOC~1.1,][]{2019ivoa.spec.1007F}. We generalize the MOC
 originally limited to space dimension (Space MOC, SMOC) to the time
@@ -148,7 +148,7 @@ properly integrated, e.~g.:
   and are there any observations which are coincidental with the HST
   archive?
 \item Which are the astronomical catalogs which have data for a list
-  of Supernova events within a given window time?
+  of Supernova events within a given time window?
 \item Are there any other observations coincidental with this
   gravitational wave detection given its time and spatial coordinates?
 \item Are there quasi-simultaneous observations (within a given time
@@ -240,7 +240,7 @@ Figure~\ref{fig:gw} shows a mock electromagnetic
 follow-up campaign of a gravitational-wave sky localization over a period
 of time (left panel), a schematic kilonova light-curve and
 temporal coverage of observations (top right panel) and associated
-spatial coverage (bottom right panel). This approach permits to depict
+spatial coverage (bottom right panel). This approach permits us to depict
 the approximate timeline of the instruments involved in the observational
 campaign and place constraints on the emission properties during the
 source evolution.
@@ -307,8 +307,9 @@ number of queries required leads to an unacceptable load on both
 clients and services. Moreover, most of these queries will deliver no
 results since most services often lack coverage in the queried
 region. If basic footprint/coverage information was available for all
-registered services, only those with coverage in the region and time
-of interest would then be queried. This would provide a great
+registered services, for instance using VODataService 1.2
+\citep{2021ivoa.spec.1102D} only those with coverage in the region
+and time of interest would then be queried. This would provide a great
 reduction in the number of services to be queried optimizing the
 response time. Using the MOC offers the opportunity to provide this
 coverage information in a uniform way. The MOC could be stored locally
@@ -345,11 +346,11 @@ this recursively. This introduces the notion of orders and
 associated cell index.
 The cell boundary alignment implied by the hierarchical structure
 facilitates the combination of cells at different orders. 
-Because of current technological possibilities,
-to operate efficiently, we are limiting to encode any pair (order, index)
-on 64 bits (a long), (in fact only 62 bits since we are using one bit
-for distinguishing space from time in binary encoding and one bit for
-future usage). The earlier MOC standard was limited to spatial coverage.
+To work efficiently on existing hardware, we encode of any pair
+(order, index) as a long integer (64 bits), and we reserve the two
+most significant bits to encode the type of MOC (spatial, temporal,
+or future usages). 
+The earlier MOC standard was limited to spatial coverage.
 We are reusing these principles to manipulate temporal coverages,
 as well as space-time coverages where we can manipulate the two
 physical dimensions simultaneously.
@@ -382,7 +383,7 @@ points:
 \item Standard: Existence of many HEALPix libraries: C++, Java,
   Fortran, IDL... Also, HEALPix was selected for several all sky
   missions such as WMAP, Planck and Gaia. The HEALPix main web site is
-  located at Jet Propulsion Lab (\url{http:healpix.jpl.nasa.gov}).
+  located at Jet Propulsion Lab (\url{http://healpix.sourceforge.io/}).
 \end{itemize}
 
 The HEALPix \citep{2005ApJ...622..759G} tessellation technique divides
@@ -456,7 +457,7 @@ The time is a relative observation, and depends on the position of the
 observer. There are many reference systems for measuring time:
 Terrestrial Time (TT), Barycentric Coordinate Time (TCB), Geocentric
 Coordinate Time (TCG), Ephemeris Time (ET), Barycentric Dynamic Time
-(TCB), International Atomic Time (AI), etc. We opt for the TCB
+(TDB), International Atomic Time (AI), etc. We opt for the TCB
 reference according to the IAU 2006 definition
 (\url{https://www.iau.org/static/resolutions/IAU2006_Resol3.pdf}). Our
 choice is motivated by the fact that this system is linear by
@@ -533,7 +534,7 @@ The numbering scheme used in SMOC for specifying the cell indices {\bf
   must} follow the "NESTED" HEALPix numbering schemes
 \citep{2005ApJ...622..759G}. This numbering consists of enumerating all cells in a
 specific order. For instance, at order 1, there are 48 cells (12x4)
-enumerated from 0 to 47. In this scheme, the 4 sub-cells of cells M
+enumerated from 0 to 47. In this scheme, the 4 sub-cells of cell M
 have the indices: (M$\times4)+3$, (M$\times4)+1$, (M$\times4)+2$,
 (M$\times4$) in reading
 order. And reciprocally, the parent index of cell N is
@@ -603,7 +604,7 @@ defined: either all MOC pairs (order, index) are stored individually
 thanks to NUNIQ packaging, or all ranges of indices at the deepest
 order are stored following the RANGE packaging.
 
-\paragraph{NUNIQ Packaging}
+\paragraph{NUNIQ Packaging (valid for SMOC only)}
 The NUNIQ scheme defines an algorithm for packaging a MOC pair (order,
 index) into a single integer for compactness:
 $$
@@ -617,12 +618,13 @@ The inverse operation is:
     \textit{index} & = &\textit{uniq} - 4 \cdot (4\,^\textit{order})
 \end{eqnarray*}
 
-\par\noindent The list of cells {\bf must} be well-formed allowing
+\par\noindent The list of cells {\bf must} be well-formed
+(see Section~\ref{sec:can}) allowing
 to express both hierarchy or range representation. The resulting
-list is stored in a single-column binary table extension. For
-lower orders these UNIQ values can be stored in a 32-bit signed integer
-(TFORM1='J') , and for the higher orders in a 64-bit signed integer
-(TFORM1='K').
+list is stored in a single-column binary table extension.
+For orders strictly lower than 14 these UNIQ values can be stored
+in a 32-bit signed integer (TFORM1='J') , and for the higher
+orders in a 64-bit signed integer (TFORM1='K').
 
 \paragraph{RANGE packaging}
 For the coding of RANGE alternative packaging, all the indices are
@@ -689,19 +691,23 @@ Cell:      & 1    & 2 & 4 & 12 to 14 & 21 & 23 & 25 & \\
 
 \paragraph{EBNF definition of an ASCII MOC:}
 \begin{lstlisting}[]
+  smoc  ::= 's'? moc
+  tmoc  ::= 't'? moc
+  stmoc ::= ('t' moc 's' moc)+
   moc ::= ordval (sep+ ordval)* [sep+ order]
   ordval ::= order sep* vals
   order ::= int '/'
   vals ::= val (sep+ val)*
-  val ::= int? | (int '-' int)
+  val ::= int | (int '-' int)
   sep ::= [ \n\r]
   int ::= [0-9]+
 \end{lstlisting}
-
-
-If the context does not allow to distinguish a TMOC to a SMOC,
-the letter ’t’ or ’s’ (lower-case) may be inserted at the beginning
-of the TMOC or SMOC string respectively.
+Note that we use Extended BNF supporting regular expression
+syntax with the following rules: i) postfix * means "repeated
+0 or more times”; ii) postfix + means "repeated 1 or more
+times”; iii) postfix ? means "0 or 1 times". The first three
+rules depend on the MOC type, i.e. SMOC for space, TMOC for
+time and STMOC for space-time. 
 
 \section{STMOC encoding}
 \label{sec:stmoc}
@@ -760,7 +766,7 @@ dimensions is always time first.
 This list of ranges will be  coded in in a list of 64bits integers
 (time indices with the 64th bit forced to 1) as:
 \begin{lstlisting}[]
-   tmin1 tmax2 smin1 smax1 tmin2 tmax2 tmin3 tmax3 smin2 smax2 smin3 smax3
+   tmin1 tmax1 smin1 smax1 tmin2 tmax2 tmin3 tmax3 smin2 smax2 smin3 smax3
 \end{lstlisting}
 
 STMOC encoding must conform to the following simple rules:
@@ -823,12 +829,12 @@ END
 \section{MOC usage constraints}
 
 \subsection{Canonical form}
-
+\label{sec:can}
 The speed of MOC operations - creation, union, intersection, etc
 is directly dependent on the speed of the equality test. It is
 therefore essential to always express a MOC in a canonical way, ie
 one unique representation for one coverage. Thus in the case of a
-hierarchical representation an MOC \textbf{must} be "well formed", i.e. 
+hierarchical representation an MOC \textbf{must} be "well-formed", i.e. 
 redundant cells are not allowed, the cells must be ascending sorted
 and the hierarchical encoding principle must be respected. Thus it
 is not allowed to encode sibling cells instead of their parent (4
@@ -886,12 +892,12 @@ the space MOC (already described in version 1.1 of this document),
 SMOC, the time MOC, TMOC and the space-time MOC, STMOC. 
 The conventions for space and time MOC are the following:
 \begin{itemize}
-\item The SMOC is simply defined as a list of HEALPix indices;
+\item The SMOC is simply defined as a list of HEALPix indices (order, index).
 \item According to HEALPix, the sphere is divided in cells,
   hierarchically grouped 4 by 4 with 30 orders and the space coverage
   for the deepest order is approximatively 0.4mas.
 \item The space reference system is ICRS. 
-\item The TMOC is simply a list of time interval indices.
+\item The TMOC is simply a list of time interval indices (order, index).
 \item The time scale is divided in intervals hierarchically grouped 2 by
   2 with 62 orders and the time coverage for the deepest order is 1 $\mu$s. 
 \item The time values are defined using JD = 0 as the origin, in Barycentric system. 
@@ -901,7 +907,7 @@ Once defined and encoded for a given astronomical collection, one
 can easily combine the MOCs for these two dimensions to create a
 merged STMOC which can be used to navigate and access the collection
 through their coverage for both time and space simultaneously.
-The possibilities are then very interesting and could be a very
+The possibilities are then very interesting and will be a very
 valuable astronomical tool.
 
 \bibliography{ivoatex/ivoabib,ivoatex/docrepo,moc}
