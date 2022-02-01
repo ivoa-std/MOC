@@ -1,0 +1,69 @@
+<ri:Resource 
+    xsi:type="vstd:Standard" 
+    created="2016-09-20T09:45:00" 
+    updated="2022-02-01T16:00:00"
+    status="active"
+    xmlns:vr="http://www.ivoa.net/xml/VOResource/v1.0" 
+    xmlns:vstd="http://www.ivoa.net/xml/StandardsRegExt/v1.0" 
+    xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" 
+    xmlns:ri="http://www.ivoa.net/xml/RegistryInterface/v1.0"
+    xsi:schemaLocation="http://www.ivoa.net/xml/VOResource/v1.0
+                        http://www.ivoa.net/xml/VOResource/v1.0
+                        http://www.ivoa.net/xml/StandardsRegExt/v1.0
+                        http://www.ivoa.net/xml/StandardsRegExt/v1.0
+                        http://www.ivoa.net/xml/VOResource/v1.0
+                        http://www.ivoa.net/xml/VOResource/v1.0">
+
+  <title>MOC: Multi-Order Coverage map</title>
+  <identifier>ivo://ivoa.net/std/MOC</identifier> 
+  <curation>
+    <publisher>IVOA</publisher>
+    <creator><name>Fernique, P.</name></creator>
+    <creator><name>Nebot, A.</name></creator>
+    <creator><name>Durand, D.</name></creator>
+    <creator><name>Baumann, M.</name></creator>
+    <creator><name>Boch, T.</name></creator>
+    <creator><name>Greco, G.</name></creator>
+    <creator><name>Donaldson, T.</name></creator>
+    <creator><name>Pineau, F.</name></creator>
+    <creator><name>Taylor, M.</name></creator>
+    <creator><name>O'Mullane, W.</name></creator>
+    <creator><name>Reinecke, M.</name></creator>
+    <creator><name>Derriere, S.</name></creator>
+
+		<!-- this should be the date of the last recommendation -->
+    <date role="update">2022-01-25</date>
+    <version>2.0</version> <!-- the document version -->
+    <contact>
+      <name>Applications WG</name> <!-- typcially, the name of the main WG/IG-->
+      <email>apps@ivoa.net</email> <!-- typically, the mailing list address -->
+    </contact>
+  </curation>
+  <content>
+    <subject>Virtual observatory</subject>
+    <!-- you can give further keywords, one per subject element;
+    use the IVOA thesaurus if possible:
+    http://www.ivoa.net/rdf/Vocabularies/vocabularies-20091007/IVOAT/IVOAT.html
+    -->
+
+    <description>
+    This document describes the Multi-Order Coverage map method (MOC) version 2.0 
+    to specify arbitrary coverages for sky regions and/or time coverages and potentially other dimensions. 
+    The goal is to be able to provide a very fast comparison mechanism between coverages. 
+    The mechanism is based on a discretization of space and time dimensions. The system is based on 
+    the definition of a specific storage of the map coverage using predefined cells hierarchically 
+    grouped which makes it easy to produce and use for exploring astronomical collections. 
+    </description>
+    <referenceURL>http://ivoa.net/documents/MOC/</referenceURL>
+    <type>Other</type>
+  	<contentLevel>Research</contentLevel>
+  </content>
+
+  <!-- Version(s) of the standard that should be used.  In general,
+  	you'll only have exactly one endorsedVersion with status="rec",
+  	but situations are imaginable where you have multiple endorsed
+  	versions, perhaps even with non-rec status (though you should probably
+  	ask the TCG before going there). -->
+  <endorsedVersion status="rec">2.0</endorsedVersion>
+  <endorsedVersion status="rec">1.1</endorsedVersion>
+</ri:Resource>
