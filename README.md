@@ -7,7 +7,7 @@ This document describes the Multi-Order Coverage map method (MOC) to specify arb
 
 ### Latest Stable
 
-The current IVOA Recommendation is [REC-2.0](https://www.ivoa.net/documents/MOC/index.html).  Prior versions are available on the [IVOA Documents page](https://www.ivoa.net/documents/index.html).
+The current IVOA Recommendation is [REC-2.0](https://ivoa.net/documents/MOC/20220317/index.html).  Prior versions are available on the [IVOA Documents page](https://www.ivoa.net/documents/index.html).
 
 ### Making Changes
 
