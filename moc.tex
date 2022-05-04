@@ -31,6 +31,7 @@
 \newcommand\apj{The Astrophysical Journal}
 \newcommand\jcap{Journal of Cosmology and Astroparticle Physics}
 \newcommand\prd{Physical Review D}
+\newcommand\aap{Astronomy \& Astrophysics }
 
 \iftth
  \newcommand{\comicstuff}[1]{
@@ -48,20 +49,22 @@
 
 \ivoagroup{Applications}
 
-\author[http://www.ivoa.net/twiki/bin/view/IVOA/PierreFernique]{Pierre Fernique (CDS)}
-\author[http://www.ivoa.net/twiki/bin/view/IVOA/AdaNebot]{Ada Nebot (CDS)}
-\author[http://www.ivoa.net/twiki/bin/view/IVOA/DanielDurand]{Daniel Durand (CADC)} \author{Matthieu Baumann (CDS)}
-\author[http://www.ivoa.net/twiki/bin/view/IVOA/ThomasBoch]{Thomas Boch (CDS)} \author{Giuseppe Greco (EGO-Virgo)}
-\author[http://www.ivoa.net/twiki/bin/view/IVOA/TomDonaldson]{Tom Donaldson (STScI/NASA)}
+\author{Pierre Fernique (CDS)}
+\author{Ada Nebot (CDS)}
+\author{Daniel Durand (CADC)}
+\author{Matthieu Baumann (CDS)}
+\author{Thomas Boch (CDS)}
+\author{Giuseppe Greco (EGO-Virgo)}
+\author{Tom Donaldson (STScI/NASA)}
 \author{Francois-Xavier Pineau (CDS)}
-\author[http://www.ivoa.net/twiki/bin/view/IVOA/MarkTaylor]{Mark Taylor (University of Bristol)}
+\author{Mark Taylor (University of Bristol)}
 \author{Wil O'Mullane (Vera C. Rubin Observatory)}
 \author{Martin Reinecke (Max Planck)}
 \author{S\'{e}bastien Derri\`{e}re (CDS)}
 
-\editor[http://www.ivoa.net/twiki/bin/view/IVOA/PierreFernique]{Pierre Fernique}
-\editor[http://www.ivoa.net/twiki/bin/view/IVOA/AdaNebot]{Ada Nebot}
-\editor[http://www.ivoa.net/twiki/bin/view/IVOA/DanielDurand]{Daniel Durand}
+\editor{Pierre Fernique}
+\editor{Ada Nebot}
+\editor{Daniel Durand}
 
 
 \previousversion[http://ivoa.net/documents/MOC/20191007]{Version1.1}
@@ -79,7 +82,7 @@ dimensions. The system is based on the definition of a specific storage
 of the map coverage using predefined cells hierarchically grouped
 which makes it easy to produce and use for exploring astronomical
 collections. There are already a few applications and libraries which
-are taking advantage of this new standard. 
+are taking advantage of this major evolution of the MOC standard. 
 \end{abstract}
 
 \listoffigures
@@ -117,13 +120,13 @@ develop standards and infrastructure that enable VO applications.
 \end{figure}
 
 \section{Introduction}
-This document is an extension of a major release of
+This document is a major release of
 the already existing encoding method recommendation \emph{Multi-Order
   Coverage} map \citep[MOC~1.1,][]{2019ivoa.spec.1007F}. We generalize the MOC
 originally limited to space dimension (Space MOC, SMOC) to the time
 dimension (Time MOC, TMOC), and space and time dimensions (Space-Time
 MOC, STMOC). Figure~\ref{fig:ivoadiagram} illustrates the role MOC2.0
-plays within the IVOA architecture \citep{note:VOARCH}.
+plays within the IVOA architecture \citep{2021ivoa.spec.1101D}.
 
 The encoding method described in this document allows one to define
 and manipulate space and time coverage in such a way that basic
@@ -167,7 +170,7 @@ to answer these questions in a few milli-seconds. Another example
 of usage would be the visual inspection of the spatio-temporal
 coverage of PanSTARRS observations (see Figure~\ref{fig:panstarrs}). 
 The choice of a temporal resolution and a spatial resolution makes it
-possible to obtain an MOC of a desired data volume. 
+possible to obtain a MOC of a desired data volume. 
 
 \begin{figure}[!ht]
 \begin{center}
@@ -225,7 +228,8 @@ manipulated using Aladin Desktop, allowing one to compare them with
 existing surveys, overlap sky map generations with increasing accuracy
 and computational cost and query the VizieR database. 
 These sets of tasks can also be performed via Python using the astropy
-affiliated package mocpy, efficiently displayed in javascript applications
+affiliated package mocpy\footnote{\url{https://cds-astro.github.io/mocpy/}},
+efficiently displayed in javascript applications
 with Aladin Lite, and integrated within Jupyter notebooks through the
 ipyaladin widget\footnote{\url{https://pos.sissa.it/357/031/pdf}}. 
 
@@ -326,8 +330,7 @@ encoding:
 \begin{enumerate}
 \item Determine a proper tessellation/discretization methodology for
   each dimension axis (space, time, ...);
-\item Fix a unique referential system for each dimension (ICRS for the
-  spatial dimension, TCB for the temporal one), to avoid 
+\item Fix a unique referential system for each dimension, to avoid 
   reference conversions and thus allowing to easily compare different
   data collections; 
 \item Use an hierarchical procedure and a unique representation
@@ -454,12 +457,11 @@ deepest order (61) the TMOC cell number is the number of $\mu$s since
 JD=0.
 
 The time is a relative observation, and depends on the position of the
-observer. There are many reference systems for measuring time:
+observer. There are many time scales for measuring time:
 Terrestrial Time (TT), Barycentric Coordinate Time (TCB), Geocentric
 Coordinate Time (TCG), Ephemeris Time (ET), Barycentric Dynamic Time
 (TDB), International Atomic Time (AI), etc. We opt for the TCB
-reference according to the IAU 2006 definition
-(\url{https://www.iau.org/static/resolutions/IAU2006_Resol3.pdf}). Our
+reference (see \cite{2015A&A...574A..36R} for details). Our
 choice is motivated by the fact that this system is linear by
 construction and has been adopted by numerous missions such as Gaia.
 
@@ -563,7 +565,7 @@ basic SMOC arithmetics.
 
 \subsection{Time MOC or TMOC}
 As introduced above, TMOC {\bf must} be based on JD system, the time
-scale TCB, and the Barycenter of the Solar System as the reference
+scale TCB, and the Solar System Barycenter as the reference
 position \citep[see also][]{2019ASPC..523..497F} and section~\ref{sec:tmoc1}.
 The best resolution supported by TMOC is $1 \mu$s.
 
@@ -588,7 +590,7 @@ representing the number of $\mu$s of this event since JD=0.
 
 Two consecutive cells at order N with the indices
   (M$\times$2)+1, (M$\times$2) will be coded at order N-1 with the index
-  M and thus recursively. The order N-1 cell duration is 2 times less
+  M and thus recursively. The order N-1 cell duration is 2 times more 
   than the N cell duration (61: 1 $\mu$s, 60: 2 $\mu$s, 59: 4 $\mu$s, etc...).
 
 \subsection{Serialization}
@@ -628,9 +630,9 @@ orders in a 64-bit signed integer (TFORM1='K').
 
 \paragraph{RANGE packaging}
 For the coding of RANGE alternative packaging, all the indices are
-expressed at the maximum resolution, and it is the continuous
-intervals of indices which will be stored
-in the FITS table thanks to two 64-bit signed integers (TFORM1='K') :
+expressed at the maximum resolution, and it is the succession
+of intervals that will be stored in the FITS table as 
+two 64-bit signed integers (TFORM1='K') :
 the smallest index of the interval and the index strictly greater
 than the largest value of the interval. The RANGE values {\bf must}
 be in ascending numerical order. The resulting list is stored in a
@@ -730,11 +732,11 @@ defined.
 \begin{center}
 {\small
   \begin{tabular} { l l l l l l l l l }
-   & t61/0      & s29/0-2    & t61/2      & s28/0 & t60/1 & 61/3 & s29/2 & 5\\
+   & t61/1      & s29/0-2    & t61/3      & s28/0 & t60/2 & 61/6 & s29/2 & 5\\
    & $\downarrow$ & $\downarrow$ & $\downarrow$ & $\downarrow$ & $\downarrow$ & $\downarrow$ & $\downarrow$ & $\downarrow$ \\
 Dimension: & Time & Space  & Time  & Space & Time  & (Time) & Space & (Space) \\
 Order:     & 61   & 29     & 61    & 28    & 60    & 61     &  29   & (29)\\
-Cell:      & 0    & 0 to 2 & 2     & 0     & 1     & 3      &  2    & 5 \\
+Cell:      & 1    & 0 to 2 & 3     & 0     & 2     & 6      &  2    & 5 \\
 \end{tabular}}
 STMOC ASCII encoding: two independent numbering. Values in parenthesis are implicit from the previous encoding substring.
 \end{center}
@@ -750,7 +752,7 @@ to 1. It is not a sign inversion (two's complement) but a mask affecting
 only that last bit without touching any other bits.  The order of
 dimensions is always time first.
 
-\paragraph{STMOC interleaving method}
+\paragraph{Illustration of STMOC interleaving method}
 \begin{adjustbox}{center,caption={STMOC encoding with two independent
       numbering system},
     label={fig:stmocbin-encoding},nofloat=figure,vspace=\bigskipamount}
@@ -829,7 +831,7 @@ The speed of MOC operations - creation, union, intersection, etc
 is directly dependent on the speed of the equality test. It is
 therefore essential to always express a MOC in a canonical way, ie
 one unique representation for one coverage. Thus in the case of a
-hierarchical representation an MOC \textbf{must} be "well-formed", i.e. 
+hierarchical representation a MOC \textbf{must} be "well-formed", i.e. 
 redundant cells are not allowed, the cells must be ascending sorted
 and the hierarchical encoding principle must be respected. Thus it
 is not allowed to encode sibling cells instead of their parent (4
@@ -838,7 +840,7 @@ representation, the list of ranges must be expressed without
 overlapping and sorted ascending.
 
 
-\subsection{Volume vs. Resolution}
+\subsection{Compromise of Volume VS. Resolution}
 In order to handle easily MOCs, it is recommended to adjust
 the maximum resolution, i.e. the deepest order, to obtain a representation of
 the desired data volume even if it means degrading the accuracy of the coverage
@@ -938,6 +940,7 @@ The differences between version 1.1 of MOC and the preceding version
 
 \input{appendix_algo.tex}
 \input{appendix_perf.tex}
+\newpage
 \input{appendix_json.tex}
 
 \end{document}
