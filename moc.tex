@@ -3,7 +3,6 @@
 
 \usepackage{makecell}
 \usepackage{listings}
-\usepackage{adjustbox}
 \usepackage[normalem]{ulem}
 \usepackage{fancyvrb}
 \usepackage{appendix}
@@ -192,11 +191,14 @@ the spatio-temporal coverage of HST ACS observations, and subsequently,
 query a database for retrieving images for which time and position
 fall within this intersection (see Fig.~\ref{fig:stmoc-saturn}). 
 
-\begin{adjustbox}{center,caption={Intersection of HST ACS observations
-      and Saturn ephemeris Space-Time-MOC},label={fig:stmoc-saturn},
-    nofloat=figure,vspace=\bigskipamount}
+\begin{figure}[h]
+\begin{center}
 \includegraphics[width=\textwidth]{stmoc_op.png}
-\end{adjustbox}
+\end{center}
+\caption{Intersection of HST ACS observations
+      and Saturn ephemeris Space-Time-MOC}
+\label{fig:stmoc-saturn}
+\end{figure}
 
 \subsection{Query databases using MOC}
 In principle, querying a positional database using complex sky region
@@ -429,11 +431,14 @@ each HEALPix order.
 In Figure~\ref{fig:smoc-view} we show the MOC creation, from images to their coverage,
 and indicating their corresponding HEALPix numbers. 
 
-\begin{adjustbox}{center,caption={SMOC: from the image
-      to the list of numbers based on HEALPix hierarchy tessellation},
-    label={fig:smoc-view},nofloat=figure,vspace=\bigskipamount}
+\begin{figure}[h]
+\begin{center}
 \includegraphics[width=\textwidth]{smoc_view.png}
-\end{adjustbox}
+\end{center}
+\caption{SMOC: from the image
+      to the list of numbers based on HEALPix hierarchy tessellation}
+\label{fig:smoc-view}
+\end{figure}
 
 \input{table1.tex}
 \input{table2.tex}
@@ -475,11 +480,15 @@ Table~\ref{table:tmocorders} is showing some time values at a given order.
 In Figure~\ref{fig:tmoc-view} we show the creation of TMOC, from a time
 series to the list of numbers based on time discretization.
       
-\begin{adjustbox}{center,caption={TMOC: from the
-      time series to the list of numbers based on time
-      discretization},label={fig:tmoc-view},nofloat=figure,vspace=\bigskipamount}
+\begin{figure}[h]
+\begin{center}
 \includegraphics[width=\textwidth]{tmoc_view.png}
-\end{adjustbox} 
+\end{center}
+\caption{TMOC: from the
+      time series to the list of numbers based on time
+      discretization}
+\label{fig:tmoc-view}
+\end{figure}
 
 \subsection{Space and Time MOC conventions}
 To respond to the different use cases presented at the beginning of
@@ -510,11 +519,14 @@ manipulate high resolution STMOCs of reasonable sizes for fast algorithms
 In Figure~\ref{fig:stmoc-view} we show the visual representation of an STMOC,
 in which at a given TMOC range we obtain the corresponding SMOC. 
  
-\begin{adjustbox}{center,caption={STMOC visual representation in which
-      at a given TMOC range we obtain the corresponding SMOC},
-    label={fig:stmoc-view},nofloat=figure,vspace=\bigskipamount}
+\begin{figure}[h]
+\begin{center}
 \includegraphics[width=0.8\textwidth]{stmoc_view.png}
-\end{adjustbox}
+\end{center}
+\caption{STMOC visual representation in which
+      at a given TMOC range we obtain the corresponding SMOC}
+\label{fig:stmoc-view}
+\end{figure}
 
 \section{SMOC and TMOC encoding}
 The encoding described in this section guarantees backward compatibility
@@ -544,10 +556,12 @@ N/4. Each SMOC cell is coded by a pair of numbers:
 (order, index) which are the HEALPix order and the HEALPix index in this
 order.
 
-\begin{adjustbox}{center,caption={HEALPix numbering principle},
-    label={Fig:HEALPix numbering},nofloat=figure,vspace=\bigskipamount}
+\begin{figure}[h]
+\begin{center}
 \includegraphics[width=\textwidth]{nested_healpix.jpg}
-\end{adjustbox}
+\end{center}
+\caption{HEALPix numbering principle}
+\end{figure}
 
 {\bf Note:} The order 0 is a special case, it contains only 12
 cells enumerated from 0 to 11.
@@ -753,11 +767,15 @@ only that last bit without touching any other bits.  The order of
 dimensions is always time first.
 
 \paragraph{Illustration of STMOC interleaving method}
-\begin{adjustbox}{center,caption={STMOC encoding with two independent
-      numbering system},
-    label={fig:stmocbin-encoding},nofloat=figure,vspace=\bigskipamount}
+
+\begin{figure}[h]
+\begin{center}
 \includegraphics[width=0.5\textwidth]{STMOCbin.png}
-\end{adjustbox}
+\caption{STMOC encoding with two independent
+      numbering system}
+\label{fig:stmocbin-encoding}
+\end{center}
+\end{figure}
 
 \par\noindent
 This list of ranges will be  coded in a list of 64bits integers
@@ -773,6 +791,7 @@ STMOC encoding must conform to the following simple rules:
 \item{The cell order MUST also be increasing first on the
   temporal axis, then on the spatial axis.}
 \end{itemize}
+This is illustrated in Figure \ref{fig:stmocbin-encoding}.
 
 
 \section{FITS keywords}
