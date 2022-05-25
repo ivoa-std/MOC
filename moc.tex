@@ -444,7 +444,7 @@ and indicating their corresponding HEALPix numbers.
 
 In order to represent time coverage, we need to select a-priori the
 total range of time that we will cover with the notation. Following
-the same SMOC principles, we need to use a discrete time axis which
+the same SMOC principles, we need to use a discrete time axis where
 each unit element of this axis has a constant duration. We adopt
 the Julian Date convention, very common in astronomy and a nominal
 resolution of 1$\mu$s. The temporal dimension being by nature 1D unlike
@@ -506,12 +506,12 @@ A single coding for indexing space and time simultaneously would imply
 at best very low resolution MOCs due to the 64-bit coding constraint. 
 We thus proposed the interleaving algorithm which allows us to define and
 manipulate high resolution STMOCs of reasonable sizes for fast algorithms
-(see Appendix~\ref{app:perf} for STMOC performances).
+(see Appendix~\ref{app:perf} for STMOC performance).
 In Figure~\ref{fig:stmoc-view} we show the visual representation of an STMOC,
-in which at at given TMOC range we obtain the corresponding SMOC. 
+in which at a given TMOC range we obtain the corresponding SMOC. 
  
 \begin{adjustbox}{center,caption={STMOC visual representation in which
-      at at given TMOC range we obtain the corresponding SMOC},
+      at a given TMOC range we obtain the corresponding SMOC},
     label={fig:stmoc-view},nofloat=figure,vspace=\bigskipamount}
 \includegraphics[width=0.8\textwidth]{stmoc_view.png}
 \end{adjustbox}
@@ -760,7 +760,7 @@ dimensions is always time first.
 \end{adjustbox}
 
 \par\noindent
-This list of ranges will be  coded in in a list of 64bits integers
+This list of ranges will be  coded in a list of 64bits integers
 (time indices with the 64th bit forced to 1) as:
 \begin{lstlisting}[]
    tmin1 tmax1 smin1 smax1 tmin2 tmax2 tmin3 tmax3 smin2 smax2 smin3 smax3
@@ -841,14 +841,14 @@ overlapping and sorted ascending.
 
 
 \subsection{Compromise of Volume VS. Resolution}
-In order to handle easily MOCs, it is recommended to adjust
+In order to easily handle MOCs, it is recommended to adjust
 the maximum resolution, i.e. the deepest order, to obtain a representation of
 the desired data volume even if it means degrading the accuracy of the coverage
 (see Appendix~\ref{app:perf}). In the case of STMOC, it is possible to adjust
 the spatial order and/or on the temporal order independently.
 
 \subsection{Working resolution}
-The MOC has been designed to be able to handle efficiently observation
+The MOC has been designed to be able to efficiently handle observation
 coverages (images, catalogs, ...). During the construction of the
 MOC, we must then ensure that at the chosen nominal resolution, any cell
 of the MOC contains at least one observation (no empty cell). To keep
